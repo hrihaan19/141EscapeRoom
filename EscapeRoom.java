@@ -89,7 +89,8 @@ public class EscapeRoom
       
       // Print the score after every valid (or invalid) move
       if (play) {
-          System.out.println("Current Score: " + score);
+        int currentSteps = game.getSteps(); 
+        System.out.println("Current Score: " + score + " and Steps Taken: " + currentSteps);
       }
     }
 
@@ -156,6 +157,11 @@ public class EscapeRoom
           printHelpMessage();
         }
     }
+
+    System.out.println("Thanks for playing!");
+  }
+}
+
 
     System.out.println("Thanks for playing!");
   }
