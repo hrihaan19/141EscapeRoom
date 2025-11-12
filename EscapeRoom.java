@@ -1,6 +1,6 @@
 /*
 * Problem 1: Escape Room
-* * V1.0
+* V1.1 - Simplified Controls
 * 10/10/2019
 * Copyright(c) 2019 PLTW to present. All rights reserved
 */
@@ -12,130 +12,151 @@
  */
 public class EscapeRoom
 {
-    // All comments from the original file are omitted for brevity
-    // but the requirements are implemented below.
 
-  public static void main(String[] args) 
-  {      
-    // welcome message
-    System.out.println("----------------------\n");
-    System.out.println("Welcome to EscapeRoom!");
-    System.out.println("Get to the other side of the room, avoiding walls and invisible traps,");
-    System.out.println("pick up all the prizes.\n");
-    System.out.println("\nHERE ARE THE COMMANDS YOU CAN ENTER:");
-    System.out.println("MOVEMENT (ONE SPACE):");
-    System.out.println("  right (r/d), left (l/a), up (u/w), down (s)");
-    System.out.println("MOVEMENT (JUMP TWO SPACES):");
-    System.out.println("  jump (jr), jumpleft (jl), jumpup (ju), jumpdown (jd)");
-    System.out.println("TRAP ACTIONS:");
-    System.out.println("  check[direction] (c[r,l,u,d]) - Check adjacent square for a trap.");
-    System.out.println("  spring[direction] (s[r,l,u,d]) - Spring trap in adjacent square.");
-    System.out.println("ACTIONS:");
-    System.out.println("  pickup (p) - Pick up a prize at your current location.");
-    System.out.println("GAME OPTIONS:");
-    System.out.println("  replay     - Reset the game (penalty if not at the end).");
-    System.out.println("  quit (q)   - End the game.");
-    System.out.println("  help (?)   - Show this help message.");
-    
+  // All game logic is now in a separate method
+  public static void playGame() {
     GameGUI game = new GameGUI();
     game.createBoard();
 
     // size of move
     int m = 60; 
-    // individual player moves (not used in this implementation, m is used directly)
-    int px = 0;
-    int py = 0; 
-    
     int score = 0;
 
-    // This Scanner is not used, UserInput.java handles input
-    // Scanner in = new Scanner(System.in); 
-    
-    // UPDATED: Added WASD, check trap (c-), and spring trap (s-) commands
+    // NEW: Simplified command list
     String[] validCommands = { 
-        "right", "left", "up", "down", "r", "l", "u", "d", "w", "a", "s",
-        "jump", "jr", "jumpleft", "jl", "jumpup", "ju", "jumpdown", "jd",
-        "checkright", "cr", "checkleft", "cl", "checkup", "cu", "checkdown", "cd",
-        "springright", "sr", "springleft", "sl", "springup", "su", "springdown", "sd",
-        "pickup", "p", "quit", "q", "replay", "help", "?"
+        // Movement
+        "w", "a", "s", "d",
+        // Jump (2 spaces)
+        "jumpw", "jumpa", "jumps", "jumpd",
+        // Check for trap
+        "checkw", "checka", "checks", "checkd",
+        // Spring a trap
+        "springw", "springa", "springs", "springd",
+        // Other actions
+        "p", "pickup", "q", "quit", "replay", "h", "help", "?"
     };
   
-    // set up game
+    // This is the inner game loop for a single playthrough
     boolean play = true;
     while (play)
     {
-      /* TODO: get all the commands working */
-      /* Your code here */
+      System.out.print("\nEnter command (h for help) > ");
       
-      // Get valid user input
-      System.out.print("\nEnter a command. you can type 'help' or '?' for the valid commands: ");
-      String input = UserInput.getValidInput(validCommands);
+      // Use the new getCommand method that checks for invalid input
+      String input = UserInput.getCommand(validCommands);
       
-      // Use a switch statement to handle game logic based on the command
+      // NEW: Updated switch for simple commands
       switch (input)
       {
-          case "right", "r", "d" -> // ADDED 'd' for right
-              score += game.movePlayer(m, 0);
-          case "left", "l", "a" -> // ADDED 'a' for left
-              score += game.movePlayer(-m, 0);
-          case "up", "u", "w" -> // ADDED 'w' for up
-              score += game.movePlayer(0, -m);
-          case "down", "s" -> // ADDED 's' for down
-              score += game.movePlayer(0, m);
-          case "jump", "jr" -> score += game.movePlayer(2 * m, 0);
-          case "jumpleft", "jl" -> score += game.movePlayer(-2 * m, 0);
-          case "jumpup", "ju" -> score += game.movePlayer(0, -2 * m);
-          case "jumpdown", "jd" -> score += game.movePlayer(0, 2 * m);
-          case "checkright", "cr" -> game.isTrap(m, 0); // isTrap() prints its own message
-          case "checkleft", "cl" -> game.isTrap(-m, 0);
-          case "checkup", "cu" -> game.isTrap(0, -m);
-          case "checkdown", "cd" -> // Default "jump" to "jump right"
-              game.isTrap(0, m);
-          case "springright", "sr" -> score += game.springTrap(m, 0);
-          case "springleft", "sl" -> score += game.springTrap(-m, 0);
-          case "springup", "su" -> score += game.springTrap(0, -m);
-          case "springdown", "sd" -> score += game.springTrap(0, m);
-          case "pickup", "p" -> score += game.pickupPrize();
+          case "d" -> score += game.movePlayer(m, 0);
+          case "a" -> score += game.movePlayer(-m, 0);
+          case "w" -> score += game.movePlayer(0, -m);
+          case "s" -> score += game.movePlayer(0, m);
+          case "jumpd" -> score += game.movePlayer(2 * m, 0);
+          case "jumpa" -> score += game.movePlayer(-2 * m, 0);
+          case "jumpw" -> score += game.movePlayer(0, -2 * m);
+          case "jumps" -> score += game.movePlayer(0, 2 * m);
+          case "checkd" -> game.isTrap(m, 0); // isTrap() prints its own message
+          case "checka" -> game.isTrap(-m, 0);
+          case "checkw" -> game.isTrap(0, -m);
+          case "checks" -> game.isTrap(0, m);
+          case "springd" -> score += game.springTrap(m, 0);
+          case "springa" -> score += game.springTrap(-m, 0);
+          case "springw" -> score += game.springTrap(0, -m);
+          case "springs" -> score += game.springTrap(0, m);
+          case "p", "pickup" -> score += game.pickupPrize();
           case "replay" -> {
-              score += game.replay();
-              System.out.println("Game reset. Score: " + score);
+              score += game.replay(); // Get replay penalty/bonus
+              score = 0; // Reset score to 0
+              System.out.println("Game reset. Score set to 0.");
             }
-          case "quit", "q" -> play = false;
-          case "help", "?" -> {
-              System.out.println("\nHERE ARE THE COMMANDS YOU CAN ENTER:");
-              System.out.println("MOVEMENT (ONE SPACE):");
-              System.out.println("  right (r/d), left (l/a), up (u/w), down (s)");
-              System.out.println("MOVEMENT (JUMP TWO SPACES):");
-              System.out.println("  jump (jr), jumpleft (jl), jumpup (ju), jumpdown (jd)");
-              System.out.println("TRAP ACTIONS:");
-              System.out.println("  check[direction] (c[r,l,u,d]) - Check adjacent square for a trap.");
-              System.out.println("  spring[direction] (s[r,l,u,d]) - Spring trap in adjacent square.");
-              System.out.println("ACTIONS:");
-              System.out.println("  pickup (p) - Pick up a prize at your current location.");
-              System.out.println("GAME OPTIONS:");
-              System.out.println("  replay     - Reset the game (penalty if not at the end).");
-              System.out.println("  quit (q)   - End the game.");
-              System.out.println("  help (?)   - Show this help message.");
+          case "q", "quit" -> play = false; // This exits the inner loop
+          case "h", "help", "?" -> printHelpMessage();
+          default -> {
+              // This will catch the "invalid" string from UserInput.getCommand
+              score -= 1; // Apply 1 point penalty
+              System.out.println("Invalid command. Score -1.");
             }
       }
         // --- Player Movement (1 Space) ---
         // --- Player Movement (Jump 2 Spaces) ---
-        // Default "jump" to "jump right"
-        // --- Check for Trap (NEW) ---
-        // --- Spring Trap (NEW) ---
+        // --- Check for Trap ---
+        // --- Spring Trap ---
         // --- Player Actions ---
         // --- Game Control ---
         // --- Help Message ---
-              // Optional: Print score after every move
-      // System.out.println("Current Score: " + score);
+        // --- Invalid Command Penalty ---
+      
+      // Print the score after every valid (or invalid) move
+      if (play) {
+          System.out.println("Current Score: " + score);
+      }
     }
 
-  
-
-    score += game.endGame();
+    // --- Game Over ---
+    // This code runs when the inner loop (play) ends
+    int finalScore = score + game.endGame();
 
     System.out.println("--- Game Over ---");
-    System.out.println("Final Score: " + score);
+    System.out.println("Final Score: " + finalScore);
     System.out.println("Total Steps: " + game.getSteps());
+  }
+
+  /**
+   * Prints all available commands.
+   */
+  public static void printHelpMessage() {
+      System.out.println("\n Escape Room Key");
+      System.out.println("Movement (One Space only):");
+      System.out.println("  w (up), a (left), s (down), d (right)");
+      System.out.println("\nMovement (Super Jump Two Spaces):");
+      System.out.println("  jumpw, jumpa, jumps, jumpd");
+      System.out.println("\nTrap Actions (Adjacent Square):");
+      System.out.println("  check[wasd] - Check for a trap (e.g., 'checkw')");
+      System.out.println("  spring[wasd] - Spring a trap (e.g., 'springa')");
+      System.out.println("\nActions (Current Square):");
+      System.out.println("  p (pickup) - Pick up a prize.");
+      System.out.println("\nGame:");
+      System.out.println("  replay     - Reset the game and score (penalty if not at the end).");
+      System.out.println("  q (quit)   - End the game.");
+      System.out.println("  h (?)      - Show this help message.");
+      System.out.println("--------------------------------\n");
+  }
+
+  /**
+   * Main method - runs the entire game
+   */
+  public static void main(String[] args) 
+  {      
+    // welcome message
+    System.out.println("Welcome to HRA EscapeRoom!");
+    System.out.println("Get to the other side of the room, avoiding walls and invisible traps,");
+    System.out.println("and pick up all the prizes.");
+    
+    // Show help message *before* playing
+    printHelpMessage();
+
+    // This is the new outer loop for "Play Again"
+    boolean gameIsRunning = true;
+    while (gameIsRunning) {
+        // Run a full game session
+        playGame();
+
+        // After the game session (playGame()) is over, ask to play again
+        System.out.print("\nDo you want to play again? (y/n) > ");
+        String[] yesNoCommands = {"yes", "no", "y", "n"};
+        String decision = UserInput.getValidInput(yesNoCommands); // Use original looping method
+
+        if (decision.equals("no") || decision.equals("n")) {
+            gameIsRunning = false;
+        } else {
+          // If yes, the loop will simply restart
+          System.out.println("\n--- New Game ---");
+          // Re-print help just in case
+          printHelpMessage();
+        }
+    }
+
+    System.out.println("Thanks for playing!");
   }
 }
