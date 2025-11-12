@@ -18,9 +18,24 @@ public class EscapeRoom
   public static void main(String[] args) 
   {      
     // welcome message
+    System.out.println("----------------------\n");
     System.out.println("Welcome to EscapeRoom!");
     System.out.println("Get to the other side of the room, avoiding walls and invisible traps,");
     System.out.println("pick up all the prizes.\n");
+    System.out.println("\nHERE ARE THE COMMANDS YOU CAN ENTER:");
+    System.out.println("MOVEMENT (ONE SPACE):");
+    System.out.println("  right (r/d), left (l/a), up (u/w), down (s)");
+    System.out.println("MOVEMENT (JUMP TWO SPACES):");
+    System.out.println("  jump (jr), jumpleft (jl), jumpup (ju), jumpdown (jd)");
+    System.out.println("TRAP ACTIONS:");
+    System.out.println("  check[direction] (c[r,l,u,d]) - Check adjacent square for a trap.");
+    System.out.println("  spring[direction] (s[r,l,u,d]) - Spring trap in adjacent square.");
+    System.out.println("ACTIONS:");
+    System.out.println("  pickup (p) - Pick up a prize at your current location.");
+    System.out.println("GAME OPTIONS:");
+    System.out.println("  replay     - Reset the game (penalty if not at the end).");
+    System.out.println("  quit (q)   - End the game.");
+    System.out.println("  help (?)   - Show this help message.");
     
     GameGUI game = new GameGUI();
     game.createBoard();
@@ -53,7 +68,7 @@ public class EscapeRoom
       /* Your code here */
       
       // Get valid user input
-      System.out.print("\nEnter command (help/? for options) > ");
+      System.out.print("\nEnter a command. you can type 'help' or '?' for the valid commands: ");
       String input = UserInput.getValidInput(validCommands);
       
       // Use a switch statement to handle game logic based on the command
@@ -87,17 +102,17 @@ public class EscapeRoom
             }
           case "quit", "q" -> play = false;
           case "help", "?" -> {
-              System.out.println("\n--- Escape Room Commands ---");
-              System.out.println("Movement (One Space):");
+              System.out.println("\nHERE ARE THE COMMANDS YOU CAN ENTER:");
+              System.out.println("MOVEMENT (ONE SPACE):");
               System.out.println("  right (r/d), left (l/a), up (u/w), down (s)");
-              System.out.println("Movement (Jump Two Spaces):");
+              System.out.println("MOVEMENT (JUMP TWO SPACES):");
               System.out.println("  jump (jr), jumpleft (jl), jumpup (ju), jumpdown (jd)");
-              System.out.println("Trap Actions:");
+              System.out.println("TRAP ACTIONS:");
               System.out.println("  check[direction] (c[r,l,u,d]) - Check adjacent square for a trap.");
               System.out.println("  spring[direction] (s[r,l,u,d]) - Spring trap in adjacent square.");
-              System.out.println("Actions:");
+              System.out.println("ACTIONS:");
               System.out.println("  pickup (p) - Pick up a prize at your current location.");
-              System.out.println("Game:");
+              System.out.println("GAME OPTIONS:");
               System.out.println("  replay     - Reset the game (penalty if not at the end).");
               System.out.println("  quit (q)   - End the game.");
               System.out.println("  help (?)   - Show this help message.");
