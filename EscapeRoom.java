@@ -12,9 +12,9 @@
  */
 public class EscapeRoom
 {
-
+  private static int highScore = Integer.MAX_VALUE;
   // All game logic is now in a separate method
-  public static void playGame() {
+  public static int playGame() {
     GameGUI game = new GameGUI();
     game.createBoard();
 
@@ -101,6 +101,8 @@ public class EscapeRoom
     System.out.println("--- Game Over ---");
     System.out.println("Final Score: " + finalScore);
     System.out.println("Total Steps: " + game.getSteps());
+
+    return finalScore;
   }
 
   /**
@@ -141,7 +143,12 @@ public class EscapeRoom
     boolean gameIsRunning = true;
     while (gameIsRunning) {
         // Run a full game session
-        playGame();
+        int lastGameScore = playGame();
+        if (lastGameScore < highScore){
+          highScore = lastGameScore;
+          System.out.println("You have achieved your new best Score! (this really just means the lowest score. youre getting cooked bro)");
+        }
+        System.out.println("Best Score This Session: " + highScore);
 
         // After the game session (playGame()) is over, ask to play again
         System.out.print("\nDo you want to play again? (y/n) > ");
@@ -155,6 +162,7 @@ public class EscapeRoom
           System.out.println("\n--- New Game ---");
           // Re-print help just in case
           printHelpMessage();
+            
         }
     }
 
