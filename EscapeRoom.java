@@ -66,7 +66,11 @@ public class EscapeRoom
           case "springs" -> score += game.springTrap(0, m);
           case "p", "pickup" -> score += game.pickupPrize();
           case "replay" -> {
-              score += game.replay(); // Get replay penalty/bonus
+              int ChangeInScore = game.replay();
+              score += ChangeInScore; // Get replay penalty/bonus
+              if (ChangeInScore != 0){
+                System.out.println("Applied the replay cost: " + ChangeInScore + "points.");
+              }
               score = 0; // Reset score to 0
               System.out.println("Game reset. Score set to 0.");
             }
