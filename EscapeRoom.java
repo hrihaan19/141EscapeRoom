@@ -3,6 +3,7 @@ public class EscapeRoom
 {
 
   private static int highScore = Integer.MAX_VALUE;
+  @SuppressWarnings("UnusedAssignment")
   public static int playGame() {
     GameGUI game = new GameGUI();
     game.createBoard();
@@ -27,86 +28,42 @@ public class EscapeRoom
       
       switch (input)
       {
-          case "d": 
-              score += game.movePlayer(m, 0);
-              break;
-          case "a": 
-              score += game.movePlayer(-m, 0);
-              break;
-          case "w": 
-              score += game.movePlayer(0, -m);
-              break;
-          case "s": 
-              score += game.movePlayer(0, m);
-              break;
-          case "jumpd": 
-              score += game.jumpPlayer(2 * m, 0);
-              break;
-          case "jumpa": 
-              score += game.jumpPlayer(-2 * m, 0);
-              break;
-          case "jumpw": 
-              score += game.jumpPlayer(0, -2 * m);
-              break;
-          case "jumps": 
-              score += game.jumpPlayer(0, 2 * m);
-              break;
+          case "d" -> score += game.movePlayer(m, 0);
+          case "a" -> score += game.movePlayer(-m, 0);
+          case "w" -> score += game.movePlayer(0, -m);
+          case "s" -> score += game.movePlayer(0, m);
+          case "jumpd" -> score += game.jumpPlayer(2 * m, 0);
+          case "jumpa" -> score += game.jumpPlayer(-2 * m, 0);
+          case "jumpw" -> score += game.jumpPlayer(0, -2 * m);
+          case "jumps" -> score += game.jumpPlayer(0, 2 * m);
 
-          case "checkd":
-              game.isTrap(m, 0); 
-              break;
-          case "checka":
-              game.isTrap(-m, 0);
-              break;
-          case "checkw":
-              game.isTrap(0, -m);
-              break;
-          case "checks":
-              game.isTrap(0, m);
-              break;
+          case "checkd" -> game.isTrap(m, 0);
+          case "checka" -> game.isTrap(-m, 0);
+          case "checkw" -> game.isTrap(0, -m);
+          case "checks" -> game.isTrap(0, m);
 
-          case "springd":
-              score += game.springTrap(m, 0);
-              break;
-          case "springa":
-              score += game.springTrap(-m, 0);
-              break;
-          case "springw":
-              score += game.springTrap(0, -m);
-              break;
-          case "springs":
-              score += game.springTrap(0, m);
-              break;
+          case "springd" -> score += game.springTrap(m, 0);
+          case "springa" -> score += game.springTrap(-m, 0);
+          case "springw" -> score += game.springTrap(0, -m);
+          case "springs" -> score += game.springTrap(0, m);
 
-          case "p":
-          case "pickup":
-              score += game.pickupPrize();
-              break;
+          case "p", "pickup" -> score += game.pickupPrize();
+          case "replay" -> {
+              int changeInScore = game.replay();
+              score += changeInScore;
+              if (changeInScore != 0) {
+                  System.out.println("Applied the replay cost: " + changeInScore + " points.");
+              }
+              score = 0;
+              System.out.println("Game reset. Score set to 0.");
+            }
 
-          case "replay":
-             int changeInScore = game.replay();
-             score += changeInScore;
-             if (changeInScore != 0) {
-                 System.out.println("Applied the replay cost: " + changeInScore + " points.");
-             }
-             score = 0;
-             System.out.println("Game reset. Score set to 0.");
-             break;
-          case "q":
-          case "quit":
-              play = false; 
-              break;
-              
-          case "h":
-          case "help":
-          case "?":
-              printHelpMessage();
-              break;
-          
-          default: 
+          case "q", "quit" -> play = false;
+          case "h", "help", "?" -> printHelpMessage();
+          default -> { 
               score -= 1;
               System.out.println("Invalid command. Score -1.");
-              break;
+            }
       }
       
       if (play) {
