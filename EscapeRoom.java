@@ -2,7 +2,8 @@
 public class EscapeRoom
 {
 
-  public static void playGame() {
+  private static int highScore = Integer.MAX_VALUE;
+  public static int playGame() {
     GameGUI game = new GameGUI();
     game.createBoard();
 
@@ -83,10 +84,14 @@ public class EscapeRoom
               break;
 
           case "replay":
-              score += game.replay(); 
-              score = 0; 
-              System.out.println("Game reset. Score set to 0.");
-              break;
+             int changeInScore = game.replay();
+             score += changeInScore;
+             if (changeInScore != 0) {
+                 System.out.println("Applied the replay cost: " + changeInScore + " points.");
+             }
+             score = 0;
+             System.out.println("Game reset. Score set to 0.");
+             break;
           case "q":
           case "quit":
               play = false; 
@@ -105,7 +110,9 @@ public class EscapeRoom
       }
       
       if (play) {
-          System.out.println("Current Score: " + score);
+        int currentSteps = game.getSteps(); 
+        System.out.println("Current Score: " + score + " and Steps Taken: " + currentSteps);
+
       }
 
       if (game.allPrizesCollected()) {
@@ -121,6 +128,8 @@ public class EscapeRoom
     System.out.println("--- Game Over ---");
     System.out.println("Final Score: " + finalScore);
     System.out.println("Total Steps: " + game.getSteps());
+
+    return finalScore;
   }
 
 
@@ -153,7 +162,12 @@ public class EscapeRoom
 
     boolean gameIsRunning = true;
     while (gameIsRunning) {
-        playGame();
+        int lastGameScore = playGame();
+        if (lastGameScore < highScore) {
+            highScore = lastGameScore;
+            System.out.println("You have achieved your new best Score! (this really just means the lowest score. youre getting cooked bro)");
+        }
+        System.out.println("Best Score This Session: " + highScore);
 
         System.out.print("\nDo you want to play again? (y/n) > ");
         String[] yesNoCommands = {"yes", "no", "y", "n"};
