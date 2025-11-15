@@ -55,6 +55,11 @@ Player chooses whether to replay
 
 Game continues until the player quits
 
+## Functionalities and Contributions
+Rohan:
+
+My contributions focused on the project's data tracking, improving the UX (user experience), and fixing all merger issues. I built the High Score Tracker, implementing the static variable required to save and display the single lowest score achieved across all game sessions. I also enhanced the player experience by adjusting the replay command so it now explicitly captures and reports the exact score penalty to the user, which makes the game cost mechanics due to replaying (if the player chooses to replay) clear. I integrated the step tracker for better real-time progress feedback. During the submission process, I managed the final integration, serving as the Integration Lead. This included merging my partners' code components with my own. I manually restored my functional code when it was accidentally removed. I ran the final tests to confirm the entire program was complete and runnable. Finally, I documented an earlier in-progress input approach in EscapeRoom2.java, although our group ultimately followed a different method for user input. 
+
 ## Presentation Link
 
 https://www.canva.com/design/DAG4pbwihJY/PqG8Yj-tWEBNo2UdxcjgHA/view?utm_content=DAG4pbwihJY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he8d0f8265d
